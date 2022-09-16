@@ -4,8 +4,7 @@
 
 To run the program, run the following in terminal:
 
-python main.py [-do_train] [-do_eval]
-
+	* python main.py [-do_train] [-do_eval]
 	* -do_train enables training
 	* -do_eval enables evaluation
 
