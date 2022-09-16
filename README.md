@@ -15,4 +15,4 @@ Most of the attributes affecting training are in the config.ini file. These are 
 	- logging_strategy: Set to steps
 	- model_path: Directory to save and load model to and from is hard coded here.
 	
-*proto_main.py is my development file; main.py is the last stable version.
+*proto_main.py is my development file; main.py is the last stable version.*
