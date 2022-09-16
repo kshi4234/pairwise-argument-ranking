@@ -2,11 +2,17 @@
 
 ***-----------------This is the pairwise argument ranking model developed by Kevin Shi.-----------------***
 
-To run the program, run the following in terminal:
+To run main.py, run the following in terminal:
 
 	* python main.py [-do_train] [-do_eval]
 	* -do_train enables training
 	* -do_eval enables evaluation
+	
+To run proto_main.py, run the following ***twice*** in terminal:
+
+	* python proto_main.py
+	
+First execution runs training and the second execution runs evaluation.
 
 ***IMPORTANT***
 
