@@ -15,7 +15,7 @@ from datetime import datetime
 
 separator = '[SEP]'
 
-# This line below enforces visible GPUS
+# This line below enforces visible GPUS (4 in total for my remote machine)
 os.environ['CUDA_VISIBLE_DEVICES'] = '0, 1, 2, 3'
 device = 'cuda' if torch.cuda.is_available() else torch.device('cpu')
 torch_device = device
@@ -35,6 +35,7 @@ def compute_metrics(e):
     return result
 
 
+# Set up the process group
 def setup(rank, world_size):
     os.environ['MASTER_ADDR'] = 'localhost'
     os.environ['MASTER_PORT'] = '12355'
@@ -76,21 +77,24 @@ class KTrainer:
         # print(self.total_data)
 
     # Begin cross-validation
-    def train_help(self, model_path, topic):
+    def train_help(self, model_path, topic, do_train, do_test):
         # suppose we have 4 gpus
         m = PairwiseModel(self.config_dict, self.labels, self.model,
                           self.data_collator, self.tokenizer)
         m.preprocess(self.total_data, topic)
         # m.load_trainer(m.train_set, m.test_set)
-        mp.spawn(m.load_trainer, args=(4, m.train_set, m.test_set, model_path), nprocs=4, join=True)
+        mp.spawn(m.load_trainer, args=(4, m.train_set, m.test_set, model_path, do_train, do_test), nprocs=4, join=True)
 
     def train(self, model_path):
         topics = self.total_data.topic.unique()
         for topic in topics:
             save_path = os.path.join(model_path, topic)
             if not os.path.isdir(save_path):
-                self.train_help(save_path, topic)
+                self.train_help(save_path, topic, True, False)
             else:
+                done_model = BartForSequenceClassification.from_pretrained(save_path)
+                done_tokenizer = BartTokenizer.from_pretrained(save_path)
+                self.train_help(save_path, topic, False, True)
                 print('SKIPPED ' + save_path)
             torch.cuda.empty_cache()
         return
@@ -167,7 +171,7 @@ class PairwiseModel:
         self.test_set = self.test_set.map(self.to_int)
 
     # Function to create the trainer
-    def load_trainer(self, rank, world_size, tokenized_train, tokenized_test, save_path):
+    def load_trainer(self, rank, world_size, tokenized_train, tokenized_test, save_path, do_train, do_test):
         setup(rank, world_size)
         global loaded_metrics
         loaded_metrics = load_metric(self.config_dict['metric'])
@@ -192,11 +196,15 @@ class PairwiseModel:
         print("build trainer with on device:", training_args.device, "with n gpus:", training_args.n_gpu)
         start = datetime.now()
         # Begin training
-        self.trainer.train()
-        self.model.save_pretrained(save_path)
-        # Save tokenizer for fine-tuned model
-        self.tokenizer.save_pretrained(save_path)
-        # print(self.gen_predict(self.test_set))
+        if do_train:
+            self.trainer.train()
+            if rank == 0:
+                # Save fine-tuned model
+                self.model.save_pretrained(save_path)
+                # Save tokenizer for fine-tuned model
+                self.tokenizer.save_pretrained(save_path)
+        if do_test:
+            print(self.gen_predict(self.test_set).metrics)
         print(f"finished in {datetime.now() - start} seconds")
 
     def gen_predict(self, test):
