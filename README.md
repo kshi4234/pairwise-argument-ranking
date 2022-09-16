@@ -9,7 +9,10 @@ To run the program, run the following in terminal:
 	* -do_eval enables evaluation
 
 ***IMPORTANT***
+
 Most of the attributes affecting training are in the config.ini file. These are the important variables hard-coded into the main program that SHOULD BE MOVED OVER TO THE CONFIG FILE:
 	- train_test_split(0.1): Split hard coded to be 90% train and 10% validation
 	- logging_strategy: Set to steps
 	- model_path: Directory to save and load model to and from is hard coded here.
+	
+proto_main.py is my development file; main.py is the last stable version.
