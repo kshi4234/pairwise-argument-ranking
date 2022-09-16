@@ -10,10 +10,12 @@ To run the program, run the following in terminal:
 
 ***IMPORTANT***
 
-Most of the attributes affecting training are in the config.ini file. These are the important variables hard-coded into the main program that SHOULD BE MOVED OVER TO THE CONFIG FILE:
+Most of the attributes affecting training are in the config.ini file. These are the important variables hard-coded into the main program that SHOULD BE MOVED OVER TO THE CONFIG FILE by me at some point:
 
 	- train_test_split(0.1): Split hard coded to be 90% train and 10% validation
 	- logging_strategy: Set to steps
 	- model_path: Directory to save and load model to and from is hard coded here.
+	- os.environ['CUDA_VISIBLE_DEVICES']: Currently set to 4 for my machine, but should be variable in config.
+	- rank and world_size: Both are set to 4 to match the number of visible GPUs. Should be made dependent on length of visible GPU list.
 	
 *proto_main.py is my development file; main.py is the last stable version.*
