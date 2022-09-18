@@ -2,6 +2,12 @@
 
 ***-----------------This is the pairwise argument ranking model developed by Kevin Shi.-----------------***
 
+
+Credit for Dataset: https://mailman.uib.no/public/corpora/2016-June/024842.html
+
+I have not uploaded the dataset to this repository, although I might at some later point.
+
+
 To run main.py, run the following in terminal:
 
 	python main.py [-do_train] [-do_eval]
