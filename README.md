@@ -8,17 +8,21 @@ Credit for Dataset: https://mailman.uib.no/public/corpora/2016-June/024842.html
 I have not uploaded the dataset to this repository, although I might at some later point.
 
 
-To run main.py, run the following in terminal:
+~~To run main.py, run the following in terminal:
 
 	python main.py [-do_train] [-do_eval]
 	-do_train enables training
-	-do_eval enables evaluation
+	-do_eval enables evaluation~~
 	
 To run proto_main.py, run the following ***twice*** in terminal:
 
 	python proto_main.py
 	
 First execution runs training and the second execution runs evaluation.
+
+###UPDATE
+
+main.py has now been updated to match proto_main.py after confirmation that proto_main.py functions as desired. To run main.py, please follow the same instructions given to run proto_main.py.
 
 ***IMPORTANT***
 
