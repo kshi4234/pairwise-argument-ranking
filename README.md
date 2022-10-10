@@ -20,9 +20,11 @@ To run proto_main.py, run the following ***twice*** in terminal:
 	
 First execution runs training and the second execution runs evaluation.
 
-### UPDATE
+#### UPDATE
 
 main.py has now been updated to match proto_main.py after confirmation that proto_main.py functions as desired. To run main.py, please follow the same instructions given to run proto_main.py.
+
+---------------------------------------------------------------------------------------------------------------
 
 ***IMPORTANT***
 
