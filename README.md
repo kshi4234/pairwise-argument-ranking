@@ -10,9 +10,9 @@ I have not uploaded the dataset to this repository, although I might at some lat
 
 ~~To run main.py, run the following in terminal:
 
-~~'	python main.py [-do_train] [-do_eval]
+~~'	python main.py [-do_train] ~[-do_eval]
 	-do_train enables training
-	-do_eval enables evaluation
+	-do_eval enables evaluation~~'
 	
 To run proto_main.py, run the following ***twice*** in terminal:
 
